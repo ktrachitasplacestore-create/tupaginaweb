@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario Página Web 48 horas</title>
+    <!-- Carga de Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Configuración de fuente Inter (preferida por Tailwind) -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                },
+            }
+        }
+    </script>
+    <style>
+        /* Estilo para el cuerpo y la fuente */
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* Animación de spinner para el estado de carga */
+        .spinner {
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top: 4px solid #ffffff;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-gray-200 flex items-center justify-center min-h-screen p-6">
+
+    <div class="bg-gray-800 p-8 rounded-xl shadow-2xl w-full max-w-2xl">
+
+        <!-- ===== CONTENEDOR DEL FORMULARIO ===== -->
+        <div id="form-container">
+            <h1 class="text-3xl font-bold text-center text-white mb-2">Tu Página Web en 48 horas</h1>
+            <p class="text-center text-gray-400 mb-8">Completa el formulario para iniciar tu proyecto.</p>
+
+            <form id="n8n-form" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                
+                <!-- Nombre completo -->
+                <div class="md:col-span-2">
+                    <label for="nombre" class="block text-sm font-medium text-gray-300 mb-2">Nombre completo</label>
+                    <input type="text" id="nombre" name="nombre" required
+                           class="w-full bg-gray-700 border border-gray-600 text-white rounded-lg p-3 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200">
+                </div>
+                
+                <!-- Whatsapp -->
+                <div>
+                    <label for="whatsapp" class="block text-sm font-medium text-gray-300 mb-2">Whatsapp (con código de país)</label>
+                    <input type="tel" id="whatsapp" name="whatsapp" placeholder="+123456789" required
+                           class="w-full bg-gray-700 border border-gray-600 text-white rounded-lg p-3 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200">
+                </div>
+                
+                <!-- Correo (opcional) -->
+                <div>
+                    <label for="correo" class="block text-sm font-medium text-gray-300 mb-2">Correo (opcional)</label>
+                    <input type="email" id="correo" name="correo"
+                           class="w-full bg-gray-700 border border-gray-600 text-white rounded-lg p-3 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200">
+                </div>
+
+                <!-- Ciudad -->
+                <div>
+                    <label for="ciudad" class="block text-sm font-medium text-gray-300 mb-2">Ciudad</label>
+                    <input type="text" id="ciudad" name="ciudad" required
+                           class="w-full bg-gray-700 border border-gray-600 text-white rounded-lg p-3 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200">
+                </div>
+                
+                <!-- País -->
+                <div>
+                    <label for="pais" class="block text-sm font-medium text-gray-300 mb-2">País</label>
+                    <input type="text" id="pais" name="pais" required
+                           class="w-full bg-gray-700 border border-gray-600 text-white rounded-lg p-3 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200">
+                </div>
+
+                <!-- Tipo de negocio -->
+                <div class="md:col-span-2">
+                    <label for="tipo_negocio" class="block text-sm font-medium text-gray-300 mb-2">Tipo de negocio</label>
+                    <select id="tipo_negocio" name="tipo_negocio" required
+                            class="w-full bg-gray-700 border border-gray-600 text-white rounded-lg p-3 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200"
+                            onchange="showOtherField(this.value)">
+                        <option value="" disabled selected>Selecciona una opción</option>
+                        <option value="servicios">Servicios (abogado, contador, cerrajero, etc)</option>
+                        <option value="restaurante">Restaurante / Comida rápida</option>
+                        <option value="tienda">Tienda de productos (ropa, bazar, papeleria, etc)</option>
+                        <option value="otro">Otro (especificar)</option>
+                    </select>
+                </div>
+
+                <!-- Campo condicional "Otro" -->
+                <div id="otro-negocio-container" class="md:col-span-2 hidden">
+                    <label for="otro_negocio" class="block text-sm font-medium text-gray-300 mb-2">Especifica tu tipo de negocio</label>
+                    <input type="text" id="otro_negocio" name="otro_negocio"
+                           class="w-full bg-gray-700 border border-gray-600 text-white rounded-lg p-3 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200">
+                </div>
+                
+                <!-- Tipo de página -->
+                <div class="md:col-span-2">
+                    <label for="tipo_pagina" class="block text-sm font-medium text-gray-300 mb-2">¿Qué tipo de página te interesa ahora mismo?</label>
+                    <select id="tipo_pagina" name="tipo_pagina" required
+                            class="w-full bg-gray-700 border border-gray-600 text-white rounded-lg p-3 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200">
+                        <option value="" disabled selected>Selecciona una opción</option>
+                        <option value="servicios">Página para vender mis servicios</option>
+                        <option value="menu">Página tipo menú digital para restaurantes/comida</option>
+                        <option value="catalogo">Página catálogo con hasta 20 productos</option>
+                    </select>
+                </div>
+                
+                <!-- Nivel de interés (Inversión) -->
+                <div class="md:col-span-2">
+                    <label for="inversion" class="block text-sm font-medium text-gray-300 mb-2">¿Estás listo para invertir los 97 USD en los próximos 7 días?</label>
+                    <select id="inversion" name="inversion" required
+                            class="w-full bg-gray-700 border border-gray-600 text-white rounded-lg p-3 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200">
+                        <option value="" disabled selected>Selecciona una opción</option>
+                        <option value="si">Si, estoy listo</option>
+                        <option value="interesado">Necesito ver opciones, pero me interesa</option>
+                        <option value="curioso">Solo estoy curioseando</option>
+                    </select>
+                </div>
+
+                <!-- Expectativas -->
+                <div class="md:col-span-2">
+                    <label for="expectativas" class="block text-sm font-medium text-gray-300 mb-2">Cuéntame brevemente qué esperas lograr con tu página</label>
+                    <textarea id="expectativas" name="expectativas" rows="4" required
+                              class="w-full bg-gray-700 border border-gray-600 text-white rounded-lg p-3 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200 min-h-[120px]"></textarea>
+                </div>
+                
+                <!-- Botón de envío -->
+                <div class="md:col-span-2">
+                    <button type="submit"
+                            class="w-full bg-blue-600 text-white font-bold py-3 px-6 rounded-lg hover:bg-blue-700 transition duration-300 text-lg shadow-lg focus:outline-none focus:ring-4 focus:ring-blue-800">
+                        Enviar mi información
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- ===== ESTADO DE CARGA (Loading) ===== -->
+        <div id="loading-container" class="hidden text-center p-12">
+            <div class="spinner mb-4"></div>
+            <p class="text-lg font-medium text-white">Enviando tu información...</p>
+            <p class="text-gray-400">Por favor, espera un momento.</p>
+        </div>
+
+        <!-- ===== ESTADO DE ÉXITO (Success) ===== -->
+        <div id="success-container" class="hidden text-center p-12">
+            <svg class="w-16 h-16 text-green-500 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            <h2 class="text-2xl font-bold text-white mb-4">¡Genial!</h2>
+            <!-- El mensaje que pediste se insertará aquí -->
+            <p id="success-message" class="text-lg text-gray-300 mb-8"></p>
+            <!-- El botón de WhatsApp -->
+            <a id="whatsapp-button"
+               href="#" 
+               target="_blank"
+               class="inline-block bg-green-500 text-white font-bold py-3 px-8 rounded-lg hover:bg-green-600 transition duration-300 text-lg shadow-lg focus:outline-none focus:ring-4 focus:ring-green-700">
+                Contactar por WhatsApp
+            </a>
+        </div>
+
+        <!-- ===== ESTADO DE ERROR (Error) ===== -->
+        <div id="error-container" class="hidden text-center p-12">
+            <svg class="w-16 h-16 text-red-500 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            <h2 class="text-2xl font-bold text-white mb-4">Hubo un error</h2>
+            <p class="text-lg text-gray-300 mb-8">No pudimos enviar tu información. Por favor, inténtalo de nuevo.</p>
+            <button onclick="resetForm()"
+                    class="inline-block bg-gray-600 text-white font-bold py-3 px-8 rounded-lg hover:bg-gray-700 transition duration-300 text-lg shadow-lg focus:outline-none focus:ring-4 focus:ring-gray-500">
+                Intentar de nuevo
+            </button>
+        </div>
+
+    </div>
+
+    <script>
+        // --- Lógica para el campo condicional "Otro" ---
+        function showOtherField(value) {
+            const container = document.getElementById('otro-negocio-container');
+            const input = document.getElementById('otro_negocio');
+            if (value === 'otro') {
+                container.classList.remove('hidden');
+                input.required = true;
+            } else {
+                container.classList.add('hidden');
+                input.required = false;
+                input.value = ''; // Limpiar el campo si se oculta
+            }
+        }
+
+        // --- Lógica de envío del formulario ---
+        const form = document.getElementById('n8n-form');
+        const formContainer = document.getElementById('form-container');
+        const loadingContainer = document.getElementById('loading-container');
+        const successContainer = document.getElementById('success-container');
+        const errorContainer = document.getElementById('error-container');
+
+        // URL de tu webhook
+        const webhookUrl = 'https://invalvn8n.inversionesalvarado.website/webhook-test/formweb';
+        
+        // Mensaje de éxito y enlace de WhatsApp (¡IMPORTANTE: CAMBIA EL NÚMERO!)
+        const successMessageText = "Hemos recibido con éxito tu información, ahora comunicate al whatsapp para finalizar el proceso de página web";
+        const whatsappNumber = "50412345678"; // <--- CAMBIA ESTO por tu número de WhatsApp (solo números, con código de país)
+        const whatsappMessage = "Hola, acabo de llenar el formulario 'Página Web en 48 horas' y quiero continuar.";
+        const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`;
+
+
+        form.addEventListener('submit', async function(e) {
+            e.preventDefault(); // Evitar el envío normal del formulario
+
+            // Ocultar formulario y mostrar spinner
+            formContainer.classList.add('hidden');
+            loadingContainer.classList.remove('hidden');
+            errorContainer.classList.add('hidden');
+            successContainer.classList.add('hidden');
+
+            // Recopilar datos del formulario
+            const formData = new FormData(form);
+            const data = Object.fromEntries(formData.entries());
+
+            try {
+                // Enviar datos al webhook de n8n
+                const response = await fetch(webhookUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                // Simular un pequeño retraso para que la animación se vea bien
+                await new Promise(resolve => setTimeout(resolve, 1000));
+
+                if (response.ok) {
+                    // ¡Éxito!
+                    loadingContainer.classList.add('hidden');
+                    successContainer.classList.remove('hidden');
+                    
+                    // Configurar el mensaje y el botón de éxito
+                    document.getElementById('success-message').textContent = successMessageText;
+                    document.getElementById('whatsapp-button').href = whatsappUrl;
+
+                } else {
+                    // Error del servidor (ej. n8n está caído o devolvió 4xx/5xx)
+                    throw new Error('Respuesta de red no fue OK');
+                }
+
+            } catch (error) {
+                // Error de red o en el fetch
+                console.error('Error al enviar el formulario:', error);
+                loadingContainer.classList.add('hidden');
+                errorContainer.classList.remove('hidden');
+            }
+        });
+
+        // --- Lógica para el botón "Intentar de nuevo" ---
+        function resetForm() {
+            errorContainer.classList.add('hidden');
+            successContainer.classList.add('hidden');
+            formContainer.classList.remove('hidden');
+            form.reset(); // Limpiar los campos del formulario
+            showOtherField(''); // Ocultar el campo "otro"
+        }
+
+    </script>
+
+</body>
+</html>
